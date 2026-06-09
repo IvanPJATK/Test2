@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplicationTest2.DTOs;
 using WebApplicationTest2.Services;
 
 namespace WebApplicationTest2.Controllers
@@ -16,6 +17,16 @@ namespace WebApplicationTest2.Controllers
             if(result == null)
             {
                 return NotFound($"No room with id {id}");
+            }
+            return Ok(result);
+        }
+        [HttpPost("guests")]
+        public async Task<IActionResult> AddNewGuest([FromBody] PostGuestDto guest)
+        {
+            var result = await _service.AddNewGuest(guest);
+            if(!result.IsSuccess)
+            {
+                return BadRequest(result.Message);
             }
             return Ok(result);
         }
